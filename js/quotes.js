@@ -26,7 +26,7 @@ const author = [
 
 const quoteContainer = document.querySelectorAll(".quotes p");
 
-let randomNumber = Math.floor(Math.random() * quotes.length);
+const randomNumber = Math.floor(Math.random() * quotes.length);
 
 quoteContainer[0].innerText = `"${quotes[randomNumber]}"`;
 quoteContainer[1].innerText = author[randomNumber];

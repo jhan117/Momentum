@@ -1,258 +1,217 @@
-const main = document.querySelector(".mainW.center");
+const mainContent = document.querySelector(".content");
 
-const time = main.querySelector("h1");
-const greeting = main.querySelector("h2");
+const timeText = mainContent.querySelector("h1");
+const greetingText = mainContent.querySelector("h2");
 
-const focusClass = main.querySelector(".focus");
-const whatFocus = focusClass.querySelector("h3");
-const compliment = focusClass.querySelector("p");
-const focusForm = focusClass.querySelector("form");
-const inputFocus = focusForm.querySelector("#to-do");
-const list = focusForm.querySelector("ul");
+function timeAndGreeting() {
+  const current = new Date();
+  const userName = localStorage.getItem("name");
 
-userName = localStorage.getItem("name");
+  const hour = current.getHours();
+  const minute = current.getMinutes();
 
-function switchWindow() {
-  if (userName === null) {
-    body.classList.remove("main-window");
-    body.classList.add("login-window");
-  } else {
-    body.classList.remove("login-window");
-    body.classList.add("main-window");
-  }
-}
-
-switchWindow();
-window.addEventListener("load", function () {
-  if (userName === null) {
-    body.classList.remove("main-window");
-    body.classList.add("login-window");
-  }
-});
-
-function currentTime() {
-  let current = new Date();
-  hour = current.getHours();
-  minute = current.getMinutes();
-
-  time.innerText = `${String(hour).padStart(2, "0")}:${String(minute).padStart(
-    2,
-    "0"
-  )}`;
+  timeText.innerText = `${String(hour).padStart(2, "0")}:${String(
+    minute
+  ).padStart(2, "0")}`;
 
   if (current.getHours() < 12) {
-    greeting.innerText = `Good morning, ${userName}.`;
+    greetingText.innerText = `Good morning, ${userName}.`;
   } else {
-    greeting.innerText = `Good afternoon, ${userName}.`;
+    greetingText.innerText = `Good afternoon, ${userName}.`;
   }
 }
 
-currentTime();
-setInterval(currentTime, 1000);
+timeAndGreeting();
+setInterval(timeAndGreeting, 1000);
 
-let comTask;
+// focus
+const focusContainer = document.querySelector(".focus");
+const focusMainText = focusContainer.querySelector("h3");
+const focusForm = focusContainer.querySelector("form");
+const focusFooterText = focusContainer.querySelector("p");
 
-function saveTaskDisplay() {
-  const taskItem = localStorage.getItem("task");
-  const compItem = localStorage.getItem("comTask");
-  if (taskItem !== null) {
-    let task = taskItem;
-    // list
-    const listItem = document.createElement("li");
+const focusInput = focusForm.querySelector("#to-do");
+const focusList = focusForm.querySelector("ul");
 
-    // input (checkbox)
-    const checkBox = document.createElement("i");
-    checkBox.classList.add("fa-regular", "fa-square");
-    // label
+let focusArray = [];
+
+function createFocus(event) {
+  event.preventDefault();
+  const focus = focusInput.value;
+  if (focusList.classList.contains("edit-focus") && focus !== "") {
+    focusList.classList.toggle("edit-focus");
+
+    const getLocal = localStorage.getItem("focus", JSON.stringify(focusArray));
+    focusArray = JSON.parse(getLocal);
+    focusArray[0].focus = focus;
+
+    localStorage.setItem("focus", JSON.stringify(focusArray));
+
+    focusInput.style.display = "none";
+    focusMainText.innerText = "TODAY";
+
+    focusList.querySelector("label").innerText = focus;
+  } else if (focus !== "") {
+    const obj = {
+      focus: focus,
+      completed: false,
+    };
+
+    focusArray = [];
+    focusArray.push(obj);
+    console.log(focusArray);
+    localStorage.setItem("focus", JSON.stringify(focusArray));
+
+    const list = document.createElement("li");
+    focusList.append(list);
+    focusContainer.classList.add("have-focus");
+    focusInput.style.display = "none";
+    focusMainText.innerText = "TODAY";
+    list.addEventListener("mouseenter", showIcons);
+    list.addEventListener("mouseleave", hideIcons);
+
+    const checkbox = document.createElement("i");
+    checkbox.className = "fa-regular fa-square";
+    checkbox.addEventListener("click", checkboxEvent);
+
     const label = document.createElement("label");
-    // button.edit
-    const editButton = document.createElement("i");
-    editButton.className = "fa-regular fa-pen-to-square fa-2xs fa-fw";
-    // button.delete
-    const deleteButton = document.createElement("i");
-    deleteButton.className = "fa-regular fa-trash-can fa-2xs fa-fw";
+    label.innerText = focus;
 
-    label.innerText = task;
+    const editIcon = document.createElement("i");
+    editIcon.className = "fa-regular fa-pen-to-square fa-2xs fa-fw";
+    editIcon.addEventListener("click", editIconEvent);
 
-    //and appending.
-    list.appendChild(listItem);
-    listItem.appendChild(checkBox);
-    listItem.appendChild(label);
-    listItem.appendChild(editButton);
-    listItem.appendChild(deleteButton);
+    const deleteIcon = document.createElement("i");
+    deleteIcon.className = "fa-regular fa-trash-can fa-2xs fa-fw";
+    deleteIcon.addEventListener("click", deleteIconEvent);
 
-    whatFocus.innerText = "TODAY";
-    inputFocus.style.display = "none";
+    list.append(checkbox, label, editIcon, deleteIcon);
+  }
+}
 
-    listItem.addEventListener("mouseenter", function () {
-      const iAll = listItem.querySelectorAll("i");
-      for (let index = 0; index < iAll.length; index++) {
-        const element = iAll[index];
-        element.style.opacity = 1;
-      }
-    });
-    listItem.addEventListener("mouseleave", function () {
-      const iAll = listItem.querySelectorAll("i");
+function checkboxEvent(event) {
+  const checkbox = event.target;
+  checkbox.classList.toggle("fa-square-check");
+  checkbox.classList.toggle("fa-square");
 
-      for (let index = 0; index < iAll.length; index++) {
-        const element = iAll[index];
-        element.style.opacity = 0;
-        if (checkBox.className === "fa-regular fa-square-check") {
-          checkBox.style.opacity = 1;
-        }
-      }
-    });
+  const getLocal = localStorage.getItem("focus", JSON.stringify(focusArray));
+  focusArray = JSON.parse(getLocal);
 
-    if (compItem === "completed") {
-      label.style.textDecoration = "line-through";
-      compliment.style.transition = "opacity 0.25s";
-      compliment.style.opacity = 1;
+  if (checkbox.classList.contains("fa-square-check")) {
+    focusFooterText.style.transition = "opacity 0.25s";
+    focusFooterText.style.opacity = 1;
+    focusFooterText.innerText = "Good job!";
+    focusArray[0].completed = true;
+    localStorage.setItem("focus", JSON.stringify(focusArray));
+  } else {
+    focusFooterText.style.opacity = 0;
+    focusArray[0].completed = false;
+    localStorage.setItem("focus", JSON.stringify(focusArray));
+  }
+}
 
-      checkBox.classList.add("fa-square-check");
-      checkBox.classList.remove("fa-square");
+function editIconEvent(event) {
+  const editIcon = event.target;
+  const list = editIcon.parentElement;
+  const checkbox = list.firstChild;
+
+  const getFocus = localStorage.getItem("focus");
+  focusArray = JSON.parse(getFocus);
+  const pastFocus = focusArray[0].focus;
+
+  if (checkbox.classList.contains("fa-square")) {
+    focusInput.value = pastFocus;
+    focusList.classList.add("edit-focus");
+    focusMainText.innerText = "What is your main focus for today?";
+    focusInput.style.display = "block";
+  } else {
+    focusList.classList.remove("edit-focus");
+    focusFooterText.innerText = "Really? You already done it! :)";
+    focusFooterText.style.opacity = 1;
+  }
+}
+
+function deleteIconEvent(event) {
+  const deleteIcon = event.target;
+  const list = deleteIcon.parentElement;
+
+  list.remove();
+  focusContainer.classList.remove("have-focus");
+  focusMainText.innerText = "What is your main focus for today?";
+  focusFooterText.style.opacity = 0;
+  focusInput.style.display = "block";
+  focusInput.value = "";
+
+  focusArray = [];
+  localStorage.removeItem("focus");
+}
+
+function showIcons(event) {
+  const iconAll = event.target.querySelectorAll("i");
+
+  for (let i = 0; i < iconAll.length; i++) {
+    const element = iconAll[i];
+    element.style.opacity = 1;
+  }
+}
+
+function hideIcons(event) {
+  const checkbox = event.target.firstChild;
+  const iconAll = event.target.querySelectorAll("i");
+
+  for (let i = 0; i < iconAll.length; i++) {
+    const element = iconAll[i];
+    element.style.opacity = 0;
+
+    if (checkbox.classList.contains("fa-square-check")) {
+      checkbox.style.opacity = 1;
+    }
+  }
+}
+
+focusForm.addEventListener("submit", createFocus);
+
+function loadFocus() {
+  const getFocus = localStorage.getItem("focus");
+  focusArray = JSON.parse(getFocus);
+
+  if (getFocus != null) {
+    focusInput.style.display = "none";
+    focusMainText.innerText = "TODAY";
+
+    const list = document.createElement("li");
+    focusList.append(list);
+    focusContainer.classList.add("have-focus");
+
+    list.addEventListener("mouseenter", showIcons);
+    list.addEventListener("mouseleave", hideIcons);
+
+    const checkbox = document.createElement("i");
+    checkbox.className = "fa-regular fa-square";
+    checkbox.addEventListener("click", checkboxEvent);
+
+    if (focusArray[0].completed == true) {
+      checkbox.classList.add("fa-square-check");
+      checkbox.classList.remove("fa-square");
+      focusFooterText.style.transition = "opacity 0.25s";
+      focusFooterText.style.opacity = 1;
+      focusFooterText.innerText = "Good job!";
+      checkbox.style.opacity = 1;
     }
 
-    // complete
-    checkBox.addEventListener("click", function () {
-      checkBox.classList.toggle("fa-square-check");
-      checkBox.classList.toggle("fa-square");
-
-      if (checkBox.className === "fa-regular fa-square-check") {
-        label.style.textDecoration = "line-through";
-        compliment.style.transition = "opacity 0.25s";
-        compliment.style.opacity = 1;
-
-        localStorage.setItem("comTask", "completed");
-      } else {
-        label.style.textDecoration = "none";
-        compliment.style.opacity = 0;
-
-        localStorage.removeItem("comTask");
-      }
-    });
-
-    // delete
-    deleteButton.addEventListener("click", function () {
-      listItem.remove();
-      whatFocus.innerText = "What is your main focus for today?";
-      inputFocus.value = "";
-      inputFocus.style.display = "block";
-      compliment.style.opacity = 0;
-
-      localStorage.removeItem("task");
-      localStorage.removeItem("comTask");
-    });
-
-    // edit
-    editButton.addEventListener("click", function () {
-      if (checkBox.className !== "fa-regular fa-square-check") {
-        listItem.remove();
-        whatFocus.innerText = "What is your main focus for today?";
-        inputFocus.style.display = "block";
-      } else {
-        compliment.innerText = "Really? It is a completed task :)";
-      }
-    });
-  }
-}
-
-window.addEventListener("load", saveTaskDisplay);
-
-// New task list item
-function createList(event) {
-  event.preventDefault();
-  let task = inputFocus.value;
-  if (task !== "") {
-    // list
-    const listItem = document.createElement("li");
-
-    // input (checkbox)
-    const checkBox = document.createElement("i");
-    checkBox.classList.add("fa-regular", "fa-square");
-    // label
     const label = document.createElement("label");
-    // button.edit
-    const editButton = document.createElement("i");
-    editButton.className = "fa-regular fa-pen-to-square fa-2xs fa-fw";
-    // button.delete
-    const deleteButton = document.createElement("i");
-    deleteButton.className = "fa-regular fa-trash-can fa-2xs fa-fw";
+    label.innerText = focusArray[0].focus;
 
-    label.innerText = task;
+    const editIcon = document.createElement("i");
+    editIcon.className = "fa-regular fa-pen-to-square fa-2xs fa-fw";
+    editIcon.addEventListener("click", editIconEvent);
 
-    //and appending.
-    list.appendChild(listItem);
-    listItem.appendChild(checkBox);
-    listItem.appendChild(label);
-    listItem.appendChild(editButton);
-    listItem.appendChild(deleteButton);
+    const deleteIcon = document.createElement("i");
+    deleteIcon.className = "fa-regular fa-trash-can fa-2xs fa-fw";
+    deleteIcon.addEventListener("click", deleteIconEvent);
 
-    whatFocus.innerText = "TODAY";
-    inputFocus.style.display = "none";
-
-    listItem.addEventListener("mouseenter", function () {
-      const iAll = listItem.querySelectorAll("i");
-      for (let index = 0; index < iAll.length; index++) {
-        const element = iAll[index];
-        element.style.opacity = 1;
-      }
-    });
-    listItem.addEventListener("mouseleave", function () {
-      const iAll = listItem.querySelectorAll("i");
-
-      for (let index = 0; index < iAll.length; index++) {
-        const element = iAll[index];
-        element.style.opacity = 0;
-        if (checkBox.className === "fa-regular fa-square-check") {
-          checkBox.style.opacity = 1;
-        }
-      }
-    });
-
-    localStorage.setItem("task", task);
-
-    // complete
-    checkBox.addEventListener("click", function () {
-      checkBox.classList.toggle("fa-square-check");
-      checkBox.classList.toggle("fa-square");
-
-      if (checkBox.className === "fa-regular fa-square-check") {
-        label.style.textDecoration = "line-through";
-        compliment.style.transition = "opacity 0.25s";
-        compliment.style.opacity = 1;
-
-        localStorage.setItem("comTask", "completed");
-      } else {
-        label.style.textDecoration = "none";
-        compliment.style.opacity = 0;
-
-        localStorage.removeItem("comTask");
-      }
-    });
-
-    // delete
-    deleteButton.addEventListener("click", function () {
-      listItem.remove();
-      whatFocus.innerText = "What is your main focus for today?";
-      inputFocus.value = "";
-      inputFocus.style.display = "block";
-      compliment.style.opacity = 0;
-
-      localStorage.removeItem("task");
-      localStorage.removeItem("comTask");
-    });
-
-    // edit
-    editButton.addEventListener("click", function () {
-      if (checkBox.className !== "fa-regular fa-square-check") {
-        listItem.remove();
-        whatFocus.innerText = "What is your main focus for today?";
-        inputFocus.style.display = "block";
-      } else {
-        compliment.innerText = "Really? It is a completed task :)";
-      }
-    });
+    list.append(checkbox, label, editIcon, deleteIcon);
   }
 }
 
-focusForm.addEventListener("submit", createList);
+window.addEventListener("load", loadFocus);

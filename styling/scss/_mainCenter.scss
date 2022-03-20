@@ -1,0 +1,126 @@
+.mainW.center {
+  text-align: center;
+  align-content: space-between;
+  justify-items: center;
+
+  .weather {
+    display: grid;
+    grid-template: repeat(2, auto) / repeat(2, auto);
+    align-items: center;
+
+    span {
+      @include font(700, rem(32));
+    }
+    p {
+      grid-column: 1 / 3;
+    }
+  }
+
+  .content {
+    display: grid;
+    justify-items: center;
+
+    h1 {
+      @include font(900, rem(144));
+    }
+    h2 {
+      margin-bottom: rem(32);
+      @include font(800, rem(64));
+    }
+    .focus {
+      display: grid;
+      justify-items: center;
+
+      h3 {
+        @include font(700, rem(36));
+      }
+      form {
+        width: 100%;
+
+        display: grid;
+        place-items: center;
+
+        #to-do {
+          width: 100%;
+
+          border: none;
+          outline: none;
+
+          border-bottom: rem(4) solid white;
+          background-color: inherit;
+          text-align: center;
+          caret-color: white;
+
+          @include font(500, rem(36));
+          line-height: rem(50);
+        }
+
+        ul {
+          list-style-type: none;
+
+          li {
+            display: grid;
+            grid-template: repeat(2, auto) / repeat(3, auto);
+            row-gap: rem(10);
+            column-gap: rem(16);
+            align-items: center;
+
+            @include font(500, rem(36));
+            line-height: rem(50);
+
+            .fa-pen-to-square {
+              grid-row: 1 / 2;
+            }
+
+            .fa-trash-can {
+              grid-column: 3 / 4;
+              grid-row: 2 / 3;
+
+              margin-left: rem(-1);
+            }
+
+            i {
+              cursor: pointer;
+
+              opacity: 0;
+              transition: opacity 0.25s;
+
+              grid-row: 1 / 3;
+            }
+
+            label {
+              display: block;
+              grid-row: 1 / 3;
+
+              margin-bottom: rem(4);
+            }
+
+            .fa-square + label {
+              text-decoration: none;
+            }
+
+            .fa-square-check + label {
+              text-decoration: line-through;
+            }
+          }
+        }
+        .edit-focus li {
+          display: none;
+        }
+      }
+      p {
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+    }
+    .have-focus p {
+      opacity: 0;
+    }
+  }
+
+  .quotes {
+    .text {
+      font-style: italic;
+    }
+  }
+}

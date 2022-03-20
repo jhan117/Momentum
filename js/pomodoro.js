@@ -1,8 +1,8 @@
 const pomodoroText = document.querySelector(".pomodoro");
 
 const pomodoroBox = document.querySelector(".pomodoro-system");
-const focusText = pomodoroBox.querySelector(".focus");
-const breakText = pomodoroBox.querySelector(".break");
+const focusText = pomodoroBox.querySelector(".focus-button");
+const breakText = pomodoroBox.querySelector(".break-button");
 const timer = pomodoroBox.querySelector("h1");
 const startButton = pomodoroBox.querySelector(".progress");
 

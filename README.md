@@ -17,24 +17,23 @@
 
 Users should be able to:
    
-- See hover states for all interactive elements on the page
-
 - Saves name in local storage
-- background images (random)
+- background images (random) using API
 
-- Pomodoro system with sound
+- Pomodoro system
 - Count down (Add, Edit, Delete)
-- Weather and location using API, geolocation
-- Habit Tracker (Add, Edit, Delete, etc)
+- Weather and location using API
+- Habit Tracker
 - Quotes (random)
-- To do list (Add, Edit, Delete, etc)
+- To do list (Add, Edit, Delete)
 
 - Time and greeting text
 - main focus to do
 
 ### Screenshot
 
-![](./)
+![](./design/login-design.jpg)
+![](./design/main-active.jpg)
 
 ## My process
 
@@ -45,6 +44,8 @@ Figma로 계획 했다. momentum의 의도를 반영하기 위해 최대한 깔�
 **2022.03.20**
     
 4일이라길래.. 월요일 풀로 시간 주나...? 했는데 월요일 오전 6시까지라서 급하게 기능 몇 가지 단축시켰다... ㅋㅋㅋㅋㅋ 뭐 그래도 넣을 건 많이 넣었다. local storage 이용하는 게 조금 까다로웠다... 귀찮달까...? 일단 대충 완성은 했는데 코드 정리는 씻고 나서 해야겠다 굳.
+
+흐미... 시간 너무 촉박하네.. 코드 정리는 시간 밖에 못했다 ㅋㅋ 약간 이름도 맘에 안들고 ㅎㅎ... 좀.. 별로긴 하다. 낼 본업 들어가야 해서... 나중에 시간 나면 틈틈히 수정해줘야 겠다. 업글도 하고... 넣고 싶은 기능 많았는데... 쭈끌...
 
 ### Built with
 
