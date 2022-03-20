@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./styling/css/style.css" />
+    <link
+      rel="shortcut icon"
+      href="./images/favicon-48x48.png"
+      type="image/x-icon"
+    />
+    <script
+      src="https://kit.fontawesome.com/a015511c01.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>Momentum</title>
+  </head>
+
+  <body>
+    <main>
+      <!-- input window -->
+      <img class="login header" src="./images/logo.jpg" alt="" />
+      <div class="login main">
+        <h1>Hello, what's your name?</h1>
+        <form novalidate autocomplete="off">
+          <input type="text" name="name" id="name" />
+          <button type="submit" id="continue">
+            Continue
+            <i class="fa-solid fa-angle-right"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- main window -->
+      <div class="mainW left">
+        <!-- pomodoro -->
+        <p class="pomodoro">Pomodoro</p>
+        <!-- pomodoro system -->
+        <section class="pomodoro-system focus-mode">
+          <div class="button-container">
+            <button class="focus">Focus</button>
+            <button class="break">Break</button>
+          </div>
+          <h1>00:00</h1>
+          <button class="progress">Start</button>
+        </section>
+
+        <!-- habit tracker -->
+        <p class="habit">Habit tracker</p>
+
+        <div class="habit-system">
+          <h1>Tim Ferriss's morning habits</h1>
+          <ul class="list">
+            <li>
+              <input type="checkbox" name="bed" id="bed" />
+              <label for="bed">Make Your Bed <br />(3 minutes)</label>
+            </li>
+            <li>
+              <input type="checkbox" name="meditate" id="meditate" />
+              <label for="meditate">Meditate <br />(10 to 20 minutes)</label>
+            </li>
+            <li>
+              <input type="checkbox" name="reps" id="reps" />
+              <label for="reps"
+                >Do Five to 10 Reps of Something <br />(1 minute)</label
+              >
+            </li>
+            <li>
+              <input type="checkbox" name="tea" id="tea" />
+              <label for="tea">Prepare Tea <br />(2 to 3 minutes)</label>
+            </li>
+            <li>
+              <input type="checkbox" name="journal" id="journal" />
+              <label for="journal"
+                >Morning Pages or 5-Minute Journal <br />(5 to 10
+                minutes)</label
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mainW center">
+        <!-- Weather and location -->
+        <div class="weather">
+          <img alt="" /><span></span>
+          <p></p>
+        </div>
+
+        <!-- main content -->
+        <div class="content">
+          <h1>00:00</h1>
+          <h2>Good morning, name.</h2>
+          <div class="focus">
+            <h3>What is your main focus for today?</h3>
+            <form novalidate autocomplete="off">
+              <input type="text" name="to-do" id="to-do" />
+              <ul></ul>
+            </form>
+            <p>Good job!</p>
+          </div>
+        </div>
+
+        <!-- quote -->
+        <div class="quotes">
+          <p class="text">text</p>
+          <p>Author</p>
+        </div>
+      </div>
+      <div class="mainW right">
+        <!-- Count down -->
+        <div class="countdown">
+          <p>00m</p>
+          <p>count name</p>
+        </div>
+        <!-- countdown system -->
+        <div class="countdown-system">
+          <form novalidate autocomplete="off">
+            <label for="count-name">name</label>
+            <input type="text" name="count-name" id="count-name" />
+            <div class="select-window">
+              <label for="select-year">date</label>
+              <select name="select-year" id="select-year"></select>
+              <select name="select-month" id="select-month">
+                <option value="0">Jan</option>
+                <option value="1">Feb</option>
+                <option value="2">Mar</option>
+                <option value="3">Apr</option>
+                <option value="4">May</option>
+                <option value="5">Jun</option>
+                <option value="6">Jul</option>
+                <option value="7">Aug</option>
+                <option value="8">Sep</option>
+                <option value="9">Oct</option>
+                <option value="10">Nov</option>
+                <option value="11">Dec</option>
+              </select>
+              <select name="select-date" id="select-date"></select>
+            </div>
+          </form>
+
+          <i class="fa-regular fa-circle-check"></i>
+        </div>
+
+        <!-- To do list -->
+        <p class="todo">To do</p>
+
+        <div class="todo-system">
+          <h1>Today</h1>
+          <form novalidate autocomplete="off">
+            <ul></ul>
+            <input
+              type="text"
+              name="newTodo"
+              id="newTodo"
+              placeholder="New Todo..."
+            />
+          </form>
+        </div>
+      </div>
+    </main>
+    <script src="./js/login.js"></script>
+    <script src="./js/focus.js"></script>
+    <script src="./js/quotes.js"></script>
+    <script src="./js/unsplash.js"></script>
+    <script src="./js/pomodoro.js"></script>
+    <script src="./js/weather.js"></script>
+    <script src="./js/countdown.js"></script>
+    <script src="./js/todo.js"></script>
+    <script src="./js/habit.js"></script>
+  </body>
+</html>
